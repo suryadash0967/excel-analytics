@@ -65,8 +65,6 @@ function Login() {
         <p>or login with</p>
         <div className="oauth-buttons">
           <button onClick={() => handleOAuth('google')}>Google</button>
-          <button onClick={() => handleOAuth('facebook')}>Facebook</button>
-          <button onClick={() => handleOAuth('twitter')}>Twitter</button>
         </div>
 
         <p className="redirect-text">

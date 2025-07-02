@@ -28,28 +28,5 @@ router.get('/google/callback',
   }
 );
 
-const TwitterStrategy = require('passport-twitter').Strategy;
-
-passport.use(new TwitterStrategy({
-  consumerKey: process.env.TWITTER_CONSUMER_KEY,
-  consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-  callbackURL: 'http://localhost:5000/api/auth/twitter/callback',
-  passReqToCallback: true
-}, (req, token, tokenSecret, profile, done) => {
-  const role = req.session.role || 'user';
-  const user = {
-    twitterId: profile.id,
-    name: profile.displayName,
-    role
-  };
-  return done(null, user);
-}));
-
-
-
-// ADD FOR FACEBOOK TOO
-
-
-
 
 module.exports = router;

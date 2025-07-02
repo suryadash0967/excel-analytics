@@ -13,7 +13,7 @@ function Login() {
       localStorage.setItem('token', res.data.token);
       window.location.href = '/dashboard';
     } catch (err) {
-      alert('Login failed');
+      alert('Register failed');
     }
   };
 
@@ -22,7 +22,7 @@ function Login() {
       <h2>Register</h2>
       <input placeholder="Email" onChange={e => setEmail(e.target.value)} />
       <input placeholder="Password" type="password" onChange={e => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogin}>Register</button>
     </div>
   );
 }
