@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 function Dashboard() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Get token from URL (if present)
@@ -11,26 +13,40 @@ function Dashboard() {
 
     if (tokenFromURL) {
       localStorage.setItem('token', tokenFromURL);
-      // Optional: you can clean the URL
-      window.history.replaceState({}, '', '/dashboard');
+      window.history.replaceState({}, '', '/dashboard'); // clean URL
     }
 
     const token = tokenFromURL || localStorage.getItem('token');
 
     if (!token) {
       navigate('/');
+      return;
+    }
+
+    try {
+      const decoded = jwtDecode(token);
+      setUser(decoded);
+    } catch (err) {
+      console.error("Invalid token", err);
+      navigate('/');
     }
   }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('role');
     navigate('/');
   };
 
   return (
     <div>
       <h2>Welcome to Dashboard</h2>
+      {user && (
+        <>
+          <p><strong>Name:</strong> {user.name}</p>
+          <p><strong>Role:</strong> {user.role}</p>
+          <p><strong>User ID:</strong> {user.id}</p>
+        </>
+      )}
       <button onClick={handleLogout}>Logout</button>
     </div>
   );

@@ -1,75 +1,119 @@
 import { useState } from 'react';
 import loginImg from '../assets/images/login-img.png';
 import axios from 'axios';
-
+import logo from '../assets/images/logo.png';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('user');
-
-  const handleOAuth = (provider) => {
-    window.location.href = `http://localhost:5000/api/auth/${provider}?role=${role}`;
-  };
-
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
       const res = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password,
-        role,
+        email, password, role
       });
-
-      const { token } = res.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', role);
-      window.location.href = role === 'admin' ? '/admin' : '/dashboard';
+      localStorage.setItem('token', res.data.token);
+      window.location.href = '/dashboard';
     } catch (err) {
-      const message = err.response?.data?.msg || 'Login failed';
-      alert(message);
-      console.error('Login error:', err);
+      setErrors({ api: err.response?.data?.error || 'Login failed' });
+    } finally {
+      setLoading(false);
     }
   };
 
-
+  const handleOAuth = (provider) => {
+    window.location.href = `http://localhost:5000/api/auth/google?role=${role}`;
+  };
 
   return (
-    <div className="login-container">
-      <div className="login-left">
-        <img src={loginImg} alt="Login Visual" />
-      </div>
+    <div className='login-wrapper'>
+      <div className="login-container">
 
-      <div className="login-right">
-        <h2>Login to Excel Analytics</h2>
-
-        <select value={role} onChange={(e) => setRole(e.target.value)}>
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button onClick={handleLogin}>Login</button>
-
-        <p>or login with</p>
-        <div className="oauth-buttons">
-          <button onClick={() => handleOAuth('google')}>Google</button>
+        <div className="login-left">
+          <img src={loginImg} alt="Login Visual" />
         </div>
 
-        <p className="redirect-text">
-          Don't have an account? <a href="/register">Register here</a>
-        </p>
+        <div className="login-right">
+          <h2 className='login-head'><img src={logo} alt="" />Excel Analytics</h2>
+          <h3 style={{marginBottom: "2rem"}}>Good To See You Again!</h3>
+
+          <div className="role-selector">
+            <div
+              className={`role-box ${role === 'user' ? 'selected' : ''}`}
+              onClick={() => setRole('user')}
+            >
+              <div className="role-icon">👤</div>
+              <div className="role-label">User</div>
+            </div>
+            <div
+              className={`role-box ${role === 'admin' ? 'selected' : ''}`}
+              onClick={() => setRole('admin')}
+            >
+              <div className="role-icon">🛡️</div>
+              <div className="role-label">Admin</div>
+            </div>
+          </div>
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+
+          <div className="password-input-container" style={{ position: 'relative' }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+            <span
+              className="password-toggle"
+              style={{
+                position: 'absolute',
+                right: 10,
+                top: '35%',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+                fontSize: '1.1em',
+                color: '#888'
+              }}
+              onClick={() => setShowPassword(!showPassword)}
+              title={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? '🙈' : '👁️'}
+            </span>
+          </div>
+
+          <button
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <div className="oauth-buttons">
+            <button
+              type="button"
+              onClick={() => handleOAuth('google')}
+              disabled={loading}
+            >
+              Sign In with Google
+            </button>
+          </div>
+
+          {errors.api && <div className="error-message">{errors.api}</div>}
+
+          <p className="redirect-text">
+            Don't have an account? <a href="/register">Register here</a>
+          </p>
+        </div>
       </div>
     </div>
   );

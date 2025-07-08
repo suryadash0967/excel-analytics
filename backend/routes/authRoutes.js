@@ -21,9 +21,10 @@ router.get('/google/callback',
   }),
   (req, res) => {
     const token = jwt.sign(
-      { id: req.user.googleId, role: req.user.role },
+      { id: req.user._id, role: req.user.role, name: req.user.name, email: req.user.email },
       process.env.JWT_SECRET
     );
+
     res.redirect(`http://localhost:5173/dashboard?token=${token}`);
   }
 );
