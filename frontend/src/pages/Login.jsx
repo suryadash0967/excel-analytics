@@ -2,6 +2,7 @@ import { useState } from 'react';
 import loginImg from '../assets/images/login-img.png';
 import axios from 'axios';
 import logo from '../assets/images/logo.png';
+import googleLogo from '../assets/images/google-logo.png';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -103,8 +104,14 @@ function Login() {
               type="button"
               onClick={() => handleOAuth('google')}
               disabled={loading}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+              }}
             >
-              Sign In with Google
+              <img src={googleLogo} alt="" />Sign In with Google
             </button>
           </div>
 

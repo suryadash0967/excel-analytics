@@ -28,8 +28,10 @@ app.use(express.urlencoded({ extended: true }));
 // routes
 const authRoutes = require('./routes/authRoutes');
 const protectedRoutes = require('./routes/protectedRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/user', protectedRoutes);
+app.use('/api/uploads', uploadRoutes);
 
 app.get('/', (req, res) => {
   res.send('Backend is working!');

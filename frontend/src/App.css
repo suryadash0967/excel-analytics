@@ -144,3 +144,56 @@
   align-items: center;
   gap: 0.7rem;
 }
+
+.upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f3f4f6;
+}
+
+.upload-box {
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.upload-box h2 {
+  margin-bottom: 1rem;
+}
+
+.upload-box input[type="file"] {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.upload-box button {
+  background-color: #4f46e5;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.upload-status {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.upload-status.error {
+  color: red;
+}
+
+.upload-status.success {
+  color: green;
+}
