@@ -56,6 +56,7 @@ router.get('/stats/:id', authenticateUser, async (req, res) => {
       originalName: file.originalName,
       uploadDate: file.uploadDate,
       storedFilename: file.storedFilename,
+      chartPreferences: file.chartPreferences || {},
       data,
     });
   } catch (err) {
@@ -115,6 +116,26 @@ router.get('/download/:filename', (req, res) => {
   }
 
   res.download(filePath);
+});
+
+router.patch('/:id/preferences', authenticateUser, async (req, res) => {
+  const { xAxis, yAxis, chartType } = req.body;
+
+  try {
+    const file = await Upload.findById(req.params.id);
+
+    if (!file || file.userId.toString() !== req.user.id) {
+      return res.status(404).json({ error: 'File not found or unauthorized' });
+    }
+
+    file.chartPreferences = { xAxis, yAxis, chartType };
+    await file.save();
+
+    res.json({ message: 'Chart preferences saved successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to save preferences' });
+  }
 });
 
 module.exports = router;

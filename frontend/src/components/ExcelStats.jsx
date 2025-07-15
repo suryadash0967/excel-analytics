@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Chart2D from "./Chart2D";
 import Chart3D from "./Chart3D";
@@ -22,6 +22,10 @@ function ExcelStats() {
                     },
                 });
                 setFileData(res.data);
+                setXAxis(res.data.chartPreferences?.xAxis || "");
+                setYAxis(res.data.chartPreferences?.yAxis || "");
+                setChartType(res.data.chartPreferences?.chartType || "bar");
+
             } catch (err) {
                 console.error("Failed to fetch file stats", err);
             }
@@ -29,6 +33,24 @@ function ExcelStats() {
 
         fetchFileData();
     }, [id]);
+
+    const savePreferences = async () => {
+        try {
+            await axios.patch(`http://localhost:5000/api/uploads/${id}/preferences`, {
+                xAxis,
+                yAxis,
+                chartType,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            alert("Preferences saved!");
+        } catch (err) {
+            console.error("Failed to save preferences", err);
+        }
+    };
+
 
     if (!fileData) return <p>Loading...</p>;
 
@@ -64,6 +86,8 @@ function ExcelStats() {
                     <option value="3d-bar">3D Bar Chart</option>
                     <option value="3d-scatter">3D Scatter Plot</option>
                 </select>
+                <button onClick={savePreferences}>💾 Save Chart Preferences</button>
+
             </div>
 
             {xAxis && yAxis && chartType.startsWith("3d") === false && (

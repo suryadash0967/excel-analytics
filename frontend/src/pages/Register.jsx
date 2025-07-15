@@ -36,7 +36,11 @@ function Register() {
         </div>
 
         <div className="login-right">
-          <h2 className='login-head'><img src={logo} alt="" />Excel Analytics</h2>
+          <h2 className='login-head'>
+            <span role="img" aria-label="logo">
+            📊
+          </span>
+          {" "}Excel Analytics</h2>
           <h3 style={{ marginBottom: "2rem" }}>Welcome Aboard!</h3>
 
           {/* Role Selector */}

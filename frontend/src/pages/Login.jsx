@@ -40,8 +40,12 @@ function Login() {
         </div>
 
         <div className="login-right">
-          <h2 className='login-head'><img src={logo} alt="" />Excel Analytics</h2>
-          <h3 style={{marginBottom: "2rem"}}>Good To See You Again!</h3>
+          <h2 className='login-head'>
+            <span role="img" aria-label="logo">
+              📊
+            </span>
+            {" "}Excel Analytics</h2>
+          <h3 style={{ marginBottom: "2rem" }}>Good To See You Again!</h3>
 
           <div className="role-selector">
             <div

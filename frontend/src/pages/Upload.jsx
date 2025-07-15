@@ -35,7 +35,7 @@ function Upload() {
       setLoading(true);
       setStatus("");
 
-      const res = await axios.post("http://localhost:5000/api/upload", formData, {
+      const res = await axios.post("http://localhost:5000/api/uploads", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -197,3 +197,240 @@
 .upload-status.success {
   color: green;
 }
+
+body, .dashboard-container {
+  font-family: 'Poppins', 'Inter', Arial, sans-serif;
+  background: #f6f7fb;
+}
+
+/* Dashboard container */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 2rem 1rem;
+  min-height: 100vh;
+  animation: fadeIn 1s;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2d3748;
+  letter-spacing: -1px;
+}
+
+.logout-btn {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px #4f46e520;
+}
+.logout-btn:hover {
+  background: #3730a3;
+}
+
+/* Card style */
+.card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px 0 #0000000d;
+  padding: 2rem 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover {
+  box-shadow: 0 8px 32px 0 #4f46e520;
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* User info */
+.user-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  animation: fadeIn 1s;
+}
+.user-info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.stat-card {
+  text-align: center;
+  background: linear-gradient(120deg, #e0e7ff 0%, #f3f4f6 100%);
+  border: none;
+  box-shadow: 0 2px 12px #4f46e510;
+  animation: slideIn 0.8s;
+}
+.stat-card h3 {
+  font-size: 1.1rem;
+  color: #6366f1;
+  margin-bottom: 0.5rem;
+}
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #3730a3;
+}
+
+/* Recent files */
+.recent-files {
+  margin-top: 2.5rem;
+}
+.recent-files h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
+  color: #2d3748;
+}
+
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.file-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 320px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  animation: fadeIn 1s;
+}
+
+.file-meta {
+  margin-bottom: 1rem;
+}
+.file-meta h4 {
+  font-size: 1.1rem;
+  color: #3730a3;
+  margin-bottom: 0.3rem;
+}
+.file-meta p {
+  font-size: 0.97rem;
+  color: #6b7280;
+}
+
+.chart-preview {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  background: #f3f4f6;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+.no-chart {
+  color: #a0aec0;
+  font-size: 1rem;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.recent-files-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.view-all-files-btn {
+  background: #fff;
+  color: #4f46e5;
+  border: 2px solid #4f46e5;
+  border-radius: 10px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 12px #4f46e510;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, border 0.2s;
+  cursor: pointer;
+  outline: none;
+}
+.view-all-files-btn:hover,
+.view-all-files-btn:focus {
+  background: #4f46e5;
+  color: #fff;
+  box-shadow: 0 6px 24px #4f46e540;
+  border: 2px solid #3730a3;
+}
+
+.file-card[tabindex="0"]:focus {
+  outline: 2px solid #6366f1;
+  box-shadow: 0 0 0 3px #6366f155;
+}
+
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-40px);}
+  to { opacity: 1; transform: translateX(0);}
+}
+.fade-in {
+  animation: fadeIn 1s;
+}
+.slide-in {
+  animation: slideIn 1s;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .dashboard-container {
+    padding: 1rem 0.5rem;
+  }
+  .user-info {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .file-grid {
+    grid-template-columns: 1fr;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .dashboard-header h1 {
+    font-size: 1.2rem;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .file-card {
+    min-height: 220px;
+    padding: 1rem 0.5rem;
+  }
+  .card {
+    padding: 1rem 0.7rem;
+  }
+}
