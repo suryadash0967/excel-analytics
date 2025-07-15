@@ -20,6 +20,7 @@ function Dashboard() {
   useEffect(() => {
     setTimeout(() => setAnimate(true), 100);
 
+    // Get token from URL (if present)
     const params = new URLSearchParams(window.location.search);
     const tokenFromURL = params.get("token");
 
@@ -55,24 +56,37 @@ function Dashboard() {
       });
       const uploads = await res.json();
 
-      let totalCharts = 0;
-      let totalRows = 0;
-      const recentFiles = uploads.slice(0, 5).map((file) => {
-        totalCharts += file.chartPreferences?.chartType ? 1 : 0;
-        return {
-          ...file,
-        };
-      });
+      const recent = uploads.slice(0, 5);
 
-      uploads.forEach((file) => {
-        totalRows += file.rowCount || Math.floor(Math.random() * 100) + 10;
-      });
+      // Fetch parsed data for each recent file
+      const recentFilesWithData = await Promise.all(
+        recent.map(async (file) => {
+          try {
+            const statsRes = await fetch(`http://localhost:5000/api/uploads/stats/${file._id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            const statsData = await statsRes.json();
+            return {
+              ...file,
+              parsedData: statsData.parsedData || [],
+            };
+          } catch (err) {
+            console.error("Failed to fetch file stats:", file._id, err);
+            return file;
+          }
+        })
+      );
+
+      let totalCharts = recentFilesWithData.filter((f) => f.chartPreferences?.chartType).length;
+      let totalRows = recentFilesWithData.reduce((sum, f) => sum + (f.parsedData?.length || 0), 0);
 
       setStats({
         totalFiles: uploads.length,
-        totalCharts: uploads.filter((f) => f.chartPreferences?.chartType).length,
+        totalCharts,
         totalRows,
-        recentFiles,
+        recentFiles: recentFilesWithData,
       });
     } catch (err) {
       setStats({
@@ -85,6 +99,7 @@ function Dashboard() {
       setLoading(false);
     }
   };
+
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -191,24 +206,19 @@ function Dashboard() {
                 </div>
                 <div className="chart-preview">
                   {file.chartPreferences?.chartType &&
-                  file.chartPreferences?.xAxis &&
-                  file.chartPreferences?.yAxis ? (
+                    file.chartPreferences?.xAxis &&
+                    file.chartPreferences?.yAxis &&
+                    file.parsedData ? (
                     file.chartPreferences.chartType.startsWith("3d") ? (
                       <Chart3D
-                        data={[
-                          { [file.chartPreferences.xAxis]: "A", [file.chartPreferences.yAxis]: 10 },
-                          { [file.chartPreferences.xAxis]: "B", [file.chartPreferences.yAxis]: 20 },
-                        ]}
+                        data={file.parsedData}
                         xAxis={file.chartPreferences.xAxis}
                         yAxis={file.chartPreferences.yAxis}
                         type={file.chartPreferences.chartType}
                       />
                     ) : (
                       <Chart2D
-                        data={[
-                          { [file.chartPreferences.xAxis]: "A", [file.chartPreferences.yAxis]: 10 },
-                          { [file.chartPreferences.xAxis]: "B", [file.chartPreferences.yAxis]: 20 },
-                        ]}
+                        data={file.parsedData}
                         xAxis={file.chartPreferences.xAxis}
                         yAxis={file.chartPreferences.yAxis}
                         type={file.chartPreferences.chartType}
@@ -218,6 +228,7 @@ function Dashboard() {
                     <div className="no-chart">No chart preferences</div>
                   )}
                 </div>
+
               </div>
             ))
           )}

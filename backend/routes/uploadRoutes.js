@@ -57,7 +57,7 @@ router.get('/stats/:id', authenticateUser, async (req, res) => {
       uploadDate: file.uploadDate,
       storedFilename: file.storedFilename,
       chartPreferences: file.chartPreferences || {},
-      data,
+      parsedData: data,
     });
   } catch (err) {
     console.error(err);
@@ -68,7 +68,34 @@ router.get('/stats/:id', authenticateUser, async (req, res) => {
 router.get('/', authenticateUser, async (req, res) => {
   try {
     const uploads = await Upload.find({ userId: req.user.id }).sort({ uploadDate: -1 });
-    res.json(uploads);
+    const uploadsWithData = await Promise.all(
+      uploads.map(async (file) => {
+        let parsedData = [];
+
+        try {
+          if (fs.existsSync(file.filePath)) {
+            const workbook = XLSX.readFile(file.filePath);
+            const sheetName = workbook.SheetNames[0];
+            parsedData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+          }
+        } catch (e) {
+          console.error(`Error reading file ${file.filePath}`, e);
+        }
+
+        return {
+          _id: file._id,
+          userId: file.userId,
+          originalName: file.originalName,
+          storedFilename: file.storedFilename,
+          filePath: file.filePath,
+          uploadDate: file.uploadDate,
+          chartPreferences: file.chartPreferences,
+          parsedData,
+        };
+      })
+    );
+
+    res.json(uploadsWithData);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch uploads' });
   }
@@ -123,11 +150,6 @@ router.patch('/:id/preferences', authenticateUser, async (req, res) => {
 
   try {
     const file = await Upload.findById(req.params.id);
-
-    if (!file || file.userId.toString() !== req.user.id) {
-      return res.status(404).json({ error: 'File not found or unauthorized' });
-    }
-
     file.chartPreferences = { xAxis, yAxis, chartType };
     await file.save();
 

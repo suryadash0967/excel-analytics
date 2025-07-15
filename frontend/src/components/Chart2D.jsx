@@ -60,18 +60,17 @@ function Chart2D({ data, xAxis, yAxis, type }) {
 
     return (
         <div style={{ textAlign: "center" }}>
-            <div ref={chartRef} style={{ width: "700px", margin: "auto" }}>
+            <div ref={chartRef} className="chart-box-wrapper">
                 {type === "bar" && <Bar data={chartData} options={options} />}
                 {type === "line" && <Line data={chartData} options={options} />}
                 {type === "pie" && <Pie data={chartData} options={options} />}
             </div>
 
-            <div style={{ marginTop: "1rem" }}>
-                <button onClick={downloadAsImage}>📸 Download PNG</button>
-                <button onClick={downloadAsPDF} style={{ marginLeft: "1rem" }}>
-                    🧾 Download PDF
-                </button>
+            <div className="download-buttons">
+                <button onClick={downloadAsImage} className="download-btn">Download PNG</button>
+                <button onClick={downloadAsPDF} className="download-btn">Download PDF</button>
             </div>
+
         </div>
     );
 }

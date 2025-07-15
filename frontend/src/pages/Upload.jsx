@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { RxCross2 } from "react-icons/rx";
 
-function Upload() {
+function Upload({ onClose }) {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
@@ -10,8 +11,7 @@ function Upload() {
     const selected = e.target.files[0];
     if (
       selected &&
-      (selected.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+      (selected.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
         selected.type === "application/vnd.ms-excel")
     ) {
       setFile(selected);
@@ -24,7 +24,7 @@ function Upload() {
 
   const handleUpload = async () => {
     if (!file) {
-      setStatus("Please select a file first.");
+      setStatus("❌ Please select a file first.");
       return;
     }
 
@@ -53,20 +53,20 @@ function Upload() {
   };
 
   return (
-    <div className="upload-container">
-      <div className="upload-box">
-        <h2>📤 Upload Excel File</h2>
-        <input type="file" accept=".xls,.xlsx" onChange={handleFileChange} />
+    <div className="upload-popup-overlay">
+      <div className="upload-popup">
+        <div className="upload-popup-header">
+          <h2>📤 Upload Excel File</h2>
+          <div className="close-btn" onClick={onClose}><RxCross2 /></div>
+        </div>
+
+        <input type="file" accept=".xls,.xlsx" onChange={handleFileChange} className="custom-file-input" />
+
         <button onClick={handleUpload} disabled={loading}>
           {loading ? "Uploading..." : "Upload"}
         </button>
-        <p
-          className={`upload-status ${
-            status.startsWith("❌") ? "error" : status ? "success" : ""
-          }`}
-        >
-          {status}
-        </p>
+
+        <p className={`upload-status ${status.startsWith("❌") ? "error" : "success"}`}>{status}</p>
       </div>
     </div>
   );

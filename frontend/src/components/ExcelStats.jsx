@@ -4,14 +4,12 @@ import Chart2D from "./Chart2D";
 import Chart3D from "./Chart3D";
 import { useParams } from "react-router-dom";
 
-
 function ExcelStats() {
     const [fileData, setFileData] = useState(null);
     const [xAxis, setXAxis] = useState("");
     const [yAxis, setYAxis] = useState("");
     const [chartType, setChartType] = useState("bar");
     const { id } = useParams();
-
 
     useEffect(() => {
         const fetchFileData = async () => {
@@ -25,7 +23,6 @@ function ExcelStats() {
                 setXAxis(res.data.chartPreferences?.xAxis || "");
                 setYAxis(res.data.chartPreferences?.yAxis || "");
                 setChartType(res.data.chartPreferences?.chartType || "bar");
-
             } catch (err) {
                 console.error("Failed to fetch file stats", err);
             }
@@ -51,55 +48,78 @@ function ExcelStats() {
         }
     };
 
+    if (!fileData) return <p className="text-center text-gray-500 mt-10">Loading...</p>;
 
-    if (!fileData) return <p>Loading...</p>;
-
-    const { originalName, uploadDate, preview, data } = fileData;
-
+    const { originalName, uploadDate, parsedData: data } = fileData;
     const columnNames = data.length > 0 ? Object.keys(data[0]) : [];
 
     return (
-        <div style={{ padding: "2rem" }}>
-            <h2>📊 Stats for: {originalName}</h2>
-            <p>🕒 Uploaded: {new Date(uploadDate).toLocaleString()}</p>
+        <div className="excelstats-bg">
+            <div className="excelstats-card">
+                <h2>
+                    📊 Stats for: <span className="text-gray-800">{originalName}</span>
+                </h2>
+                <p className="excelstats-info">
+                    🕒 Uploaded: <span>{new Date(uploadDate).toLocaleString()}</span>
+                </p>
 
-            <h3>🎛️ Select Columns & Chart Type</h3>
-            <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
-                <select onChange={(e) => setXAxis(e.target.value)} value={xAxis}>
-                    <option value="">Select X-axis</option>
-                    {columnNames.map((col) => (
-                        <option key={col} value={col}>{col}</option>
-                    ))}
-                </select>
+                <div className="mb-8">
+                    <h3>Select Columns &amp; Chart Type</h3>
+                    <div className="excelstats-dropdowns">
+                        <select
+                            onChange={(e) => setXAxis(e.target.value)}
+                            value={xAxis}
+                        >
+                            <option value="">Select X-axis</option>
+                            {columnNames.map((col) => (
+                                <option key={col} value={col}>{col}</option>
+                            ))}
+                        </select>
 
-                <select onChange={(e) => setYAxis(e.target.value)} value={yAxis}>
-                    <option value="">Select Y-axis</option>
-                    {columnNames.map((col) => (
-                        <option key={col} value={col}>{col}</option>
-                    ))}
-                </select>
+                        <select
+                            onChange={(e) => setYAxis(e.target.value)}
+                            value={yAxis}
+                        >
+                            <option value="">Select Y-axis</option>
+                            {columnNames.map((col) => (
+                                <option key={col} value={col}>{col}</option>
+                            ))}
+                        </select>
 
-                <select onChange={(e) => setChartType(e.target.value)} value={chartType}>
-                    <option value="bar">Bar Chart</option>
-                    <option value="line">Line Chart</option>
-                    <option value="pie">Pie Chart</option>
-                    <option value="3d-bar">3D Bar Chart</option>
-                    <option value="3d-scatter">3D Scatter Plot</option>
-                </select>
-                <button onClick={savePreferences}>💾 Save Chart Preferences</button>
+                        <select
+                            onChange={(e) => setChartType(e.target.value)}
+                            value={chartType}
+                        >
+                            <option value="bar">Bar Chart</option>
+                            <option value="line">Line Chart</option>
+                            <option value="pie">Pie Chart</option>
+                            <option value="3d-bar">3D Bar Chart</option>
+                            <option value="3d-scatter">3D Scatter Plot</option>
+                        </select>
+                    </div>
+                    <button
+                        onClick={savePreferences}
+                        className="excelstats-save-btn"
+                    >
+                        💾 Save Chart Preferences
+                    </button>
+                </div>
 
+                <div className="excelstats-chart-section">
+                    <h4>Chart Preview</h4>
+                    <div className="excelstats-chart-area">
+                        {xAxis && yAxis && !chartType.startsWith("3d") && (
+                            <Chart2D data={data} xAxis={xAxis} yAxis={yAxis} type={chartType} />
+                        )}
+                        {xAxis && yAxis && chartType.startsWith("3d") && (
+                            <Chart3D data={data} xAxis={xAxis} yAxis={yAxis} type={chartType} />
+                        )}
+                        {(!xAxis || !yAxis) && (
+                            <span className="excelstats-chart-placeholder">Select X and Y axes to preview chart.</span>
+                        )}
+                    </div>
+                </div>
             </div>
-
-            {xAxis && yAxis && chartType.startsWith("3d") === false && (
-                <Chart2D data={data} xAxis={xAxis} yAxis={yAxis} type={chartType} />
-            )}
-
-            {xAxis && yAxis && chartType.startsWith("3d") && (
-                <Chart3D data={data} xAxis={xAxis} yAxis={yAxis} type={chartType} />
-            )}
-
-
-            {/* 3D chart rendering will go here later */}
         </div>
     );
 }
