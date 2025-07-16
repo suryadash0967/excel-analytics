@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import loginImg from '../assets/images/login-img.png';
 import axios from 'axios';
-import logo from '../assets/images/logo.png';
+import { MdAdminPanelSettings } from "react-icons/md";
+import { FaUser, FaEye, FaEyeSlash  } from "react-icons/fa";
 import googleLogo from '../assets/images/google-logo.png';
+import { useEffect } from "react";
 
 function Login() {
+  useEffect(() => {
+    document.body.classList.remove("dark");
+    document.body.classList.add("light");
+  }, []);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('user');
@@ -45,21 +51,21 @@ function Login() {
               📊
             </span>
             {" "}Excel Analytics</h2>
-          <h3 style={{ marginBottom: "2rem" }}>Good To See You Again!</h3>
+          <h3 style={{ marginBottom: "2rem", fontWeight: '500' }}>Good To See You Again!</h3>
 
           <div className="role-selector">
             <div
               className={`role-box ${role === 'user' ? 'selected' : ''}`}
               onClick={() => setRole('user')}
             >
-              <div className="role-icon">👤</div>
+              <div className="role-icon"><FaUser /></div>
               <div className="role-label">User</div>
             </div>
             <div
               className={`role-box ${role === 'admin' ? 'selected' : ''}`}
               onClick={() => setRole('admin')}
             >
-              <div className="role-icon">🛡️</div>
+              <div className="role-icon"><MdAdminPanelSettings /></div>
               <div className="role-label">Admin</div>
             </div>
           </div>
@@ -83,16 +89,17 @@ function Login() {
               style={{
                 position: 'absolute',
                 right: 10,
-                top: '35%',
+                top: '40%',
                 transform: 'translateY(-50%)',
                 cursor: 'pointer',
                 fontSize: '1.1em',
-                color: '#888'
+                color: '#000',
+                userSelect: 'none'
               }}
               onClick={() => setShowPassword(!showPassword)}
               title={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? '🙈' : '👁️'}
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
 
@@ -115,7 +122,7 @@ function Login() {
                 gap: '10px',
               }}
             >
-              <img src={googleLogo} alt="" />Sign In with Google
+              Or Sign In with <img src={googleLogo} alt="" />
             </button>
           </div>
 

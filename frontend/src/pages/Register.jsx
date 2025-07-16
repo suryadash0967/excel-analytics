@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import loginImg from '../assets/images/login-img.png';
-import logo from "../assets/images/logo.png";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 import googleLogo from "../assets/images/google-logo.png";
 import axios from 'axios';
 
@@ -12,6 +13,12 @@ function Register() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  
+  useEffect(() => {
+    document.body.classList.remove("dark");
+    document.body.classList.add("light");
+  }, []);
+
 
   const handleRegister = async () => {
     setLoading(true);
@@ -38,10 +45,10 @@ function Register() {
         <div className="login-right">
           <h2 className='login-head'>
             <span role="img" aria-label="logo">
-            📊
-          </span>
-          {" "}Excel Analytics</h2>
-          <h3 style={{ marginBottom: "2rem" }}>Welcome Aboard!</h3>
+              📊
+            </span>
+            {" "}Excel Analytics</h2>
+          <h3 style={{ marginBottom: "2rem", fontWeight: '500' }}>Welcome Aboard!</h3>
 
           {/* Role Selector */}
           <div className="role-selector">
@@ -49,14 +56,14 @@ function Register() {
               className={`role-box ${role === 'user' ? 'selected' : ''}`}
               onClick={() => setRole('user')}
             >
-              <div className="role-icon">👤</div>
+              <div className="role-icon"><FaUser /></div>
               <div className="role-label">User</div>
             </div>
             <div
               className={`role-box ${role === 'admin' ? 'selected' : ''}`}
               onClick={() => setRole('admin')}
             >
-              <div className="role-icon">🛡️</div>
+              <div className="role-icon"><MdAdminPanelSettings /></div>
               <div className="role-label">Admin</div>
             </div>
           </div>
@@ -84,19 +91,21 @@ function Register() {
               style={{ paddingRight: '40px' }}
             />
             <span
-              onClick={() => setShowPassword(!showPassword)}
+              className="password-toggle"
               style={{
                 position: 'absolute',
                 right: 10,
-                top: '35%',
+                top: '40%',
                 transform: 'translateY(-50%)',
                 cursor: 'pointer',
                 fontSize: '1.1em',
-                color: '#888'
+                color: '#000',
+                userSelect: 'none'
               }}
+              onClick={() => setShowPassword(!showPassword)}
               title={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? '🙈' : '👁️'}
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
 
@@ -119,7 +128,7 @@ function Register() {
                 gap: '10px',
               }}
             >
-              <img src={googleLogo} alt="" />Or Sign Up with Google
+              Or Sign Up with <img src={googleLogo} alt="" />
             </button>
           </div>
 

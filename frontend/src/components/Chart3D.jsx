@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 function Box({ x, y, height, color }) {
   return (
@@ -25,6 +25,7 @@ function Point({ x, y, z, color }) {
 
 const Chart3D = ({ data, xAxis, yAxis, type }) => {
   const canvasRef = useRef();
+  const location = useLocation();
 
   const xValues = data.map((row) => row[xAxis]);
   const yValues = data.map((row) => Number(row[yAxis]));
@@ -59,7 +60,7 @@ const Chart3D = ({ data, xAxis, yAxis, type }) => {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <div ref={canvasRef} style={{ width: "100%", height: "500px" }}>
+      <div ref={canvasRef} className="chart-box-wrapper">
         <Canvas>
           <PerspectiveCamera makeDefault position={[5, 10, 10]} />
           <ambientLight intensity={0.5} />
@@ -76,12 +77,12 @@ const Chart3D = ({ data, xAxis, yAxis, type }) => {
         </Canvas>
       </div>
 
-      <div style={{ marginTop: "1rem" }}>
-        <button onClick={downloadAsImage}>📸 Download PNG</button>
-        <button onClick={downloadAsPDF} style={{ marginLeft: "1rem" }}>
-          🧾 Download PDF
-        </button>
-      </div>
+      {location.pathname !== "/dashboard" && (
+  <div className="download-buttons">
+    <button onClick={downloadAsImage} className="download-btn">Download PNG</button>
+    <button onClick={downloadAsPDF} className="download-btn">Download PDF</button>
+  </div>
+)}
     </div>
   );
 };

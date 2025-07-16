@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import Chart2D from "../components/Chart2D";
 import Chart3D from "../components/Chart3D";
+import Loader from "../components/Loader";
 
 function Dashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState({
-    totalFiles: 0,
-    totalCharts: 0,
-    totalRows: 0,
+    totalFiles: "...",
+    totalCharts: "...",
+    totalRows: "...",
     recentFiles: [],
   });
   const [loading, setLoading] = useState(true);
@@ -123,26 +124,20 @@ function Dashboard() {
           </span>{" "}
           Excel Analytics Dashboard
         </h1>
-        <button className="logout-btn" onClick={handleLogout}>
+        {/* <button className="logout-btn" onClick={handleLogout}>
           Logout
-        </button>
+        </button> */}
       </header>
 
       {user && (
         <section className="user-info card">
           <div>
-            <h2>{user.name}</h2>
+            <h2>{user.name.toUpperCase()}</h2>
             <p>
               <strong>Email:</strong> {user.email}
             </p>
             <p>
-              <strong>Role:</strong> {user.role}
-            </p>
-            <p>
-              <strong>Registered:</strong>{" "}
-              {user.iat
-                ? new Date(user.iat * 1000).toLocaleDateString()
-                : "N/A"}
+              <strong>Role:</strong> {user.role === "user" ? "User" : "Admin"}
             </p>
           </div>
         </section>
@@ -176,7 +171,7 @@ function Dashboard() {
         </div>
         <div className="file-grid">
           {loading ? (
-            <p>Loading...</p>
+            <Loader />
           ) : stats.recentFiles.length === 0 ? (
             <p>No files uploaded yet.</p>
           ) : (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Upload from "./Upload";
+import Loader from "../components/Loader";
 
 function Files() {
   const [uploads, setUploads] = useState([]);
@@ -33,7 +34,21 @@ function Files() {
     fetchUploads(); // Refresh list after modal closes
   };
 
-  if (loading) return <p style={{ textAlign: "center" }}>Loading your uploads...</p>;
+  const handleDelete = async (fileId) => {
+    if (!window.confirm("Are you sure you want to delete this file?")) return;
+    try {
+      await axios.delete(`http://localhost:5000/api/uploads/${fileId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setUploads((prev) => prev.filter((file) => file._id !== fileId));
+    } catch (err) {
+      alert("Failed to delete file.");
+    }
+  };
+
+  if (loading) return <Loader />;
 
   return (
     <div className="files-page">
@@ -49,7 +64,6 @@ function Files() {
           </div>
         </div>
       )}
-
 
       {uploads.length === 0 ? (
         <p className="no-uploads-msg">You haven't uploaded any files yet.</p>
@@ -70,6 +84,13 @@ function Files() {
                   <td>{new Date(file.uploadDate).toLocaleString()}</td>
                   <td>
                     <button className="view-btn" onClick={() => navigate(`/files/${file._id}`)}>View Stats</button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(file._id)}
+                      style={{ marginLeft: "8px" }}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -78,8 +99,6 @@ function Files() {
         </div>
       )}
     </div>
-
-
   );
 }
 

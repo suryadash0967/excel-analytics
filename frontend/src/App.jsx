@@ -7,10 +7,16 @@ import Files from './pages/Files';
 import ExcelStats from './components/ExcelStats';
 import Navbar from './components/Navbar';
 import './App.css';
+import { useEffect } from 'react';
 
 function AppWrapper() {
   const location = useLocation();
   const hideNavbar = location.pathname === '/login' || location.pathname === '/register';
+  useEffect(() => {
+  const savedTheme = localStorage.getItem("theme") || "light";
+  document.body.classList.remove("light", "dark");
+  document.body.classList.add(savedTheme);
+}, []);
 
   return (
     <>

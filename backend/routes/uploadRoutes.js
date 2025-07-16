@@ -160,4 +160,26 @@ router.patch('/:id/preferences', authenticateUser, async (req, res) => {
   }
 });
 
+router.delete('/:id', authenticateUser, async (req, res) => {
+  try {
+    const file = await Upload.findById(req.params.id);
+    if (!file || file.userId.toString() !== req.user.id) {
+      return res.status(404).json({ error: 'File not found or unauthorized' });
+    }
+
+    // Delete file from disk
+    if (fs.existsSync(file.filePath)) {
+      fs.unlinkSync(file.filePath);
+    }
+
+    // Delete from DB
+    await Upload.deleteOne({ _id: req.params.id });
+
+    res.json({ message: 'File deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete file' });
+  }
+});
+
 module.exports = router;

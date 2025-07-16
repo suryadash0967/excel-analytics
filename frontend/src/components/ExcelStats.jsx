@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Chart2D from "./Chart2D";
 import Chart3D from "./Chart3D";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import Loader from "./Loader";
 
 function ExcelStats() {
     const [fileData, setFileData] = useState(null);
@@ -10,6 +11,7 @@ function ExcelStats() {
     const [yAxis, setYAxis] = useState("");
     const [chartType, setChartType] = useState("bar");
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchFileData = async () => {
@@ -48,7 +50,22 @@ function ExcelStats() {
         }
     };
 
-    if (!fileData) return <p className="text-center text-gray-500 mt-10">Loading...</p>;
+    const handleDelete = async () => {
+        if (!window.confirm("Are you sure you want to delete this file?")) return;
+        try {
+            await axios.delete(`http://localhost:5000/api/uploads/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            alert("File deleted!");
+            navigate("/files");
+        } catch (err) {
+            alert("Failed to delete file.");
+        }
+    };
+
+    if (!fileData) return <Loader />;
 
     const { originalName, uploadDate, parsedData: data } = fileData;
     const columnNames = data.length > 0 ? Object.keys(data[0]) : [];
@@ -57,7 +74,7 @@ function ExcelStats() {
         <div className="excelstats-bg">
             <div className="excelstats-card">
                 <h2>
-                    📊 Stats for: <span className="text-gray-800">{originalName}</span>
+                    📊 Stats for: <span className="excelstats-filename">{originalName}</span>
                 </h2>
                 <p className="excelstats-info">
                     🕒 Uploaded: <span>{new Date(uploadDate).toLocaleString()}</span>
@@ -104,6 +121,14 @@ function ExcelStats() {
                         💾 Save Chart Preferences
                     </button>
                 </div>
+
+                <button
+                    className="delete-btn excelstats-save-btn"
+                    onClick={handleDelete}
+                    style={{ marginBottom: "1rem" }}
+                >
+                    Delete File
+                </button>
 
                 <div className="excelstats-chart-section">
                     <h4>Chart Preview</h4>

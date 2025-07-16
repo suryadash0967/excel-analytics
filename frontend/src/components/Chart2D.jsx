@@ -4,11 +4,13 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Tooltip, Legend } from "chart.js";
+import { useLocation } from "react-router-dom";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Tooltip, Legend);
 
 function Chart2D({ data, xAxis, yAxis, type }) {
     const chartRef = useRef();
+    const location = useLocation();
 
     const xValues = data.map((row) => row[xAxis]);
     const yValues = data.map((row) => Number(row[yAxis]));
@@ -66,10 +68,12 @@ function Chart2D({ data, xAxis, yAxis, type }) {
                 {type === "pie" && <Pie data={chartData} options={options} />}
             </div>
 
-            <div className="download-buttons">
+            {/* {!location.pathname === "/dashboard" && ( */}
+                <div className="download-buttons">
                 <button onClick={downloadAsImage} className="download-btn">Download PNG</button>
                 <button onClick={downloadAsPDF} className="download-btn">Download PDF</button>
             </div>
+            {/* )}   */}
 
         </div>
     );

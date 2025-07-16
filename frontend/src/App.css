@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
   padding: 0;
   margin: 0;
@@ -36,8 +38,6 @@ body {
 
 .custom-navbar {
   width: 100%;
-  background: #fff;
-  box-shadow: 0 2px 12px 0 #589cee22;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -46,22 +46,36 @@ body {
   top: 0;
   z-index: 100;
   font-family: 'Poppins', 'Inter', Arial, sans-serif;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.7); /* default light mode */
+  box-shadow: 0 2px 12px 0 #589cee22;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body.dark .custom-navbar {
+  background-color: rgba(24, 26, 32, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .navbar-logo {
   display: flex;
-  align-items: center;
   gap: 0.7rem;
-  font-size: 1.3rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: #589cee;
   letter-spacing: -1px;
+  align-items: center;
+  justify-content: center;
 }
 
 .navbar-title {
-  color: #222;
-  font-size: 1.15rem;
+  /* color: #222; */
+  font-size: 24px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .navbar-links {
@@ -78,6 +92,10 @@ body {
   padding-bottom: 3px;
   border-bottom: 2px solid transparent;
   transition: color 0.2s, border-bottom 0.2s;
+}
+
+body.dark .navbar-link {
+  color: #fff;
 }
 
 .navbar-link:hover,
@@ -142,7 +160,7 @@ body {
   justify-content: center;
   display: flex;
   width: 70%;
-  height: 40rem;
+  height: 41rem;
   font-family: 'Poppins', sans-serif;
 
 }
@@ -237,8 +255,9 @@ body {
   align-items: center;
   border: 2px solid #ccc;
   border-radius: 10px;
-  padding: 18px 28px;
+  padding: 10px 25px;
   cursor: pointer;
+  width: 7rem;
   transition: border-color 0.2s, box-shadow 0.2s;
   background: #fafafa;
 }
@@ -251,7 +270,7 @@ body {
 
 .role-icon {
   font-size: 2.5em;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
 }
 
 .role-label {
@@ -269,8 +288,6 @@ body {
   align-items: center;
   gap: 0.7rem;
 }
-
-
 
 .files-page {
   padding: 2.5rem;
@@ -684,7 +701,25 @@ body {
   color: #6b7280;
 }
 
+.delete-btn {
+  background: #e53e3e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #e53e3e22;
+  transition: background 0.2s, box-shadow 0.2s;
+}
 
+.delete-btn:hover,
+.delete-btn:focus {
+  background: #c53030;
+  box-shadow: 0 4px 16px #e53e3e33;
+  outline: none;
+}
 
 .chart-preview {
   flex: 1;
@@ -740,6 +775,350 @@ body {
   outline: 2px solid #6366f1;
   box-shadow: 0 0 0 3px #6366f155;
 }
+
+
+body.dark .dashboard-header h1 {
+  color: #f3f4f6;
+}
+
+body.dark .stat-value {
+  color: #8c84ff;
+}
+
+body.dark .stat-card h3 {
+  color: #8c84ff;
+}
+
+
+body.dark .recent-files-header h2 {
+  color: #f3f4f6;
+}
+
+body.dark .card {
+  background: #1e1f26;
+  color: #f3f4f6;
+  box-shadow: 0 4px 24px 0 #00000066;
+}
+
+body.dark .stat-card {
+  background: #2b2d35;
+  color: #e0e7ff;
+}
+
+body.dark .chart-preview {
+  background: #2f313a;
+}
+
+body.dark .file-meta h4 {
+  color: #f3f4f6;
+}
+
+body.dark .file-meta p {
+  color: #cbd5e1;
+}
+
+body.dark .logout-btn {
+  background: #4f46e5;
+  color: #fff;
+}
+
+body.dark .theme-toggle-btn {
+  background: #3c7ece;
+  color: #fff;
+}
+
+body.dark .view-all-files-btn {
+  background: transparent;
+  color: #e0e7ff;
+  border: 1px solid #6366f1;
+}
+
+body.dark .view-all-files-btn:hover {
+  background: #6366f1;
+  color: #fff;
+  border-color: #4338ca;
+}
+
+/* Light mode defaults (optional if already styled) */
+body.light .excelstats-bg {
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+body.dark .excelstats-bg {
+  background-color: #181a20;
+  color: #f3f4f6;
+}
+
+body.dark .excelstats-card {
+  background: #1e1f26;
+  box-shadow: 0 4px 24px #00000055;
+}
+
+body.dark .excelstats-filename {
+  color: #e0e7ff;
+}
+
+body.dark .excelstats-info span {
+  color: #cbd5e1;
+}
+
+body.dark select {
+  background: #2c2f36;
+  color: #f3f4f6;
+  border: 1px solid #4b5563;
+}
+
+body.dark .excelstats-save-btn {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+}
+
+body.dark .excelstats-save-btn:hover {
+  background: #3730a3;
+}
+
+body.dark .excelstats-chart-area {
+  background-color: #2a2c34;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+body.dark .excelstats-chart-placeholder {
+  color: #9ca3af;
+}
+
+body.dark .files-page {
+  background-color: #181a20;
+  color: #f3f4f6;
+}
+
+body.dark .files-header h2 {
+  color: #e0e7ff;
+}
+
+body.dark .uploads-table {
+  background-color: #1e1f26;
+  color: #f3f4f6;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+body.dark .uploads-table th,
+body.dark .uploads-table td {
+  border: 1px solid #3b3e47;
+  padding: 0.75rem;
+}
+
+body.dark .uploads-table th {
+  background-color: #2b2d35;
+  color: #f9fafb;
+}
+
+body.dark .uploads-table tr:nth-child(even) {
+  background-color: #24262f;
+}
+
+body.dark .uploads-table tr:hover {
+  background-color: #2f313a;
+}
+
+body.dark .view-btn {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+body.dark .view-btn:hover {
+  background: #3730a3;
+}
+
+body.dark .upload-trigger {
+  background: #3c7ece;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+body.dark .upload-trigger:hover {
+  background: #2b6cb0;
+}
+
+body.dark .no-uploads-msg,
+body.dark .files-loading-msg {
+  color: #9ca3af;
+  text-align: center;
+}
+
+
+/* Generic body dark style */
+body.dark {
+  background-color: #181a20;
+  color: #f3f4f6;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Buttons */
+body.dark button,
+body.dark .theme-toggle-btn {
+  background-color: #3c7ece;
+  color: #fff;
+  border: none;
+}
+
+body.dark button:hover,
+body.dark .theme-toggle-btn:hover {
+  background-color: #2b6cb0;
+}
+
+/* Upload popup */
+body.dark .upload-popup {
+  background-color: #1e1f26;
+  color: #f3f4f6;
+  border-radius: 10px;
+}
+
+body.dark .upload-status.success {
+  color: #4ade80;
+}
+
+body.dark .upload-status.error {
+  color: #f87171;
+}
+
+/* Login/Register */
+body.dark .login-container,
+body.dark .login-right {
+  background-color: #1e1f26;
+  color: #f3f4f6;
+}
+
+body.dark .login-left img {
+  filter: brightness(0.9);
+}
+
+body.dark input {
+  background-color: #2a2b33;
+  color: #f3f4f6;
+  border: 1px solid #3b3e47;
+}
+
+body.dark .password-toggle {
+  color: #f3f4f6;
+}
+
+/* Files Page */
+body.dark .files-page {
+  background-color: #181a20;
+  color: #f3f4f6;
+}
+
+body.dark .uploads-table {
+  background-color: #1e1f26;
+  color: #f3f4f6;
+  border-collapse: collapse;
+}
+
+body.dark .uploads-table th,
+body.dark .uploads-table td {
+  border: 1px solid #3b3e47;
+}
+
+body.dark .uploads-table th {
+  background-color: #2b2d35;
+}
+
+body.dark .uploads-table tr:nth-child(even) {
+  background-color: #24262f;
+}
+
+body.dark .uploads-table tr:hover {
+  background-color: #2f313a;
+}
+
+body.dark .view-btn,
+body.dark .upload-trigger {
+  background-color: #4f46e5;
+  color: #fff;
+}
+
+body.dark .no-uploads-msg,
+body.dark .files-loading-msg {
+  color: #9ca3af;
+}
+
+/* Dashboard stats and file cards */
+body.dark .dashboard-container,
+body.dark .card {
+  background-color: #1f2028;
+  color: #f3f4f6;
+}
+
+body.dark .stat-card {
+  background: linear-gradient(120deg, #262a40 0%, #1f2028 100%);
+  color: #f3f4f6;
+}
+
+body.dark .recent-files h2,
+body.dark .dashboard-header h1 {
+  color: #e0e7ff;
+}
+
+body.dark .file-meta h4 {
+  color: #cbd5e1;
+}
+
+body.dark .file-meta p,
+body.dark .no-chart {
+  color: #9ca3af;
+}
+
+/* ExcelStats page */
+body.dark .excelstats-bg {
+  background-color: #181a20;
+  color: #f3f4f6;
+}
+
+body.dark .excelstats-card {
+  background-color: #1f2028;
+  color: #f3f4f6;
+}
+
+body.dark .excelstats-info span,
+body.dark .excelstats-dropdowns select,
+body.dark .excelstats-chart-placeholder {
+  color: #e5e7eb;
+  background-color: #2a2b33;
+  border: 1px solid #3b3e47;
+}
+
+body.dark .excelstats-save-btn {
+  background-color: #4f46e5;
+  color: #fff;
+}
+
+body.dark .excelstats-save-btn:hover {
+  background-color: #3730a3;
+}
+
+body.dark .custom-popup {
+  background-color: #1e1f26;
+}
+
+body.dark .close-btn {
+  color: #fff;
+  border-color: #fff;
+}
+
+
 
 
 /* Animations */
@@ -980,7 +1359,7 @@ body {
   }
 }
 .download-buttons {
-  margin-top: 1.5rem;
+  margin: 1.5rem 0;
   display: flex;
   justify-content: center;
   gap: 1rem;
@@ -1007,4 +1386,62 @@ body {
 .download-btn:active {
   transform: translateY(0);
   background-color: #589cee;
+}
+
+
+
+body.light {
+  background: #f9fafb;
+  color: #222;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark {
+  background: #181a20;
+  color: #f3f4f6;
+  transition: background 0.3s, color 0.3s;
+}
+.light {
+  background: #f9fafb;
+  color: #222;
+  transition: background 0.3s, color 0.3s;
+}
+
+.dark {
+  background: #181a20;
+  color: #f3f4f6;
+  transition: background 0.3s, color 0.3s;
+}
+
+.theme-toggle-btn {
+  background: #589cee;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 1rem;
+  box-shadow: 0 2px 8px #589cee22;
+  transition: background 0.2s, color 0.2s;
+}
+
+.theme-toggle-btn:hover,
+.theme-toggle-btn:focus {
+  background: #3c7ece;
+  color: #fff;
+  outline: none;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  color: #000; /* default: black for light mode */
+}
+
+body.dark .loader-container {
+  color: #fff; /* white for dark mode */
 }

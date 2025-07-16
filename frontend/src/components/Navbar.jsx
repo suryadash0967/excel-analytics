@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ function Navbar() {
         <button className="navbar-logout-btn" onClick={handleLogout}>
           Logout
         </button>
+        <ThemeToggle />
       </div>
     </nav>
   );
