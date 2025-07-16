@@ -25,12 +25,10 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// ✅ Conditional password validation only for local auth
 userSchema.pre('validate', function (next) {
-  // If password is missing, assume it's OAuth unless specified
   if (!this.password) {
     if (!this.authType) {
-      this.authType = 'google'; // Default to google if not set
+      this.authType = 'google';
     }
 
     if (this.authType === 'local') {
