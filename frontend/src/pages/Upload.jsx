@@ -35,7 +35,7 @@ function Upload({ onClose }) {
       setLoading(true);
       setStatus("");
 
-      const res = await axios.post("${import.meta.env.VITE_API_URL}/api/uploads", formData, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/uploads`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

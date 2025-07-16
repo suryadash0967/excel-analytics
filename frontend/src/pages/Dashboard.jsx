@@ -50,7 +50,7 @@ function Dashboard() {
 
   const fetchDashboardData = async (token) => {
     try {
-      const res = await fetch("${import.meta.env.VITE_API_URL}/api/uploads", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/uploads`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

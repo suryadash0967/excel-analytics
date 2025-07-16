@@ -16,11 +16,12 @@ function Files() {
 
   const fetchUploads = async () => {
     try {
-      const res = await axios.get("${import.meta.env.VITE_API_URL}/api/uploads", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/uploads`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+      console.log("uploads API response:", res.data);
       setUploads(res.data);
     } catch (err) {
       console.error("Failed to fetch uploads", err);
@@ -65,7 +66,7 @@ function Files() {
         </div>
       )}
 
-      {uploads.length === 0 ? (
+      {uploads?.length === 0 ? (
         <p className="no-uploads-msg">You haven't uploaded any files yet.</p>
       ) : (
         <div className="table-wrapper">
