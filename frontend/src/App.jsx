@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -11,12 +11,24 @@ import { useEffect } from 'react';
 
 function AppWrapper() {
   const location = useLocation();
+  const navigate = useNavigate();
   const hideNavbar = location.pathname === '/login' || location.pathname === '/register';
+
   useEffect(() => {
-  const savedTheme = localStorage.getItem("theme") || "light";
-  document.body.classList.remove("light", "dark");
-  document.body.classList.add(savedTheme);
-}, []);
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.body.classList.remove("light", "dark");
+    document.body.classList.add(savedTheme);
+  }, []);
+  useEffect(() => {
+    if (location.pathname === "/") {
+      const token = localStorage.getItem("token");
+      if (token) {
+        navigate("/dashboard");
+      } else {
+        navigate("/login");
+      }
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <>
