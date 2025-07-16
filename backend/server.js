@@ -28,7 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: [process.env.CLIENT_URL, 'https://excel-analytics-2l5cvg13b-suryadash0967s-projects.vercel.app'],
   credentials: true
 }));
 app.use(express.json());
