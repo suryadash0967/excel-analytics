@@ -55,7 +55,7 @@ function Files() {
     <div className="files-page">
       <div className="files-header">
         <h2>Your Uploaded Excel Files</h2>
-        <button className="upload-trigger" onClick={() => setShowUploadPopup(true)}>+ Upload File</button>
+        <button className="upload-trigger" onClick={() => setShowUploadPopup(true)}>Upload File</button>
       </div>
 
       {showUploadPopup && (

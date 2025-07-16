@@ -101,12 +101,6 @@ function Dashboard() {
     }
   };
 
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
-
   const handleFileCardClick = (fileId) => {
     navigate(`/files/${fileId}`);
   };
@@ -121,8 +115,8 @@ function Dashboard() {
         <h1>
           <span role="img" aria-label="logo">
             📊
-          </span>{" "}
-          Excel Analytics Dashboard
+          </span>
+          {" "}Dashboard
         </h1>
         {/* <button className="logout-btn" onClick={handleLogout}>
           Logout
