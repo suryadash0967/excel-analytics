@@ -19,6 +19,7 @@ function AppWrapper() {
     document.body.classList.remove("light", "dark");
     document.body.classList.add(savedTheme);
   }, []);
+  
   useEffect(() => {
     if (location.pathname === "/") {
       const token = localStorage.getItem("token");
