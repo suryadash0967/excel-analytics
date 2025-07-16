@@ -3,23 +3,32 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 dotenv.config();
 require('./passportConfig');
 
-const app = express(); // ✅ move this up
+const app = express();
 
 app.use(session({
-  secret: process.env.SESSION_SECRET, // Use env variable
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    collectionName: 'sessions',
+  }),
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.CLIENT_URL,
   credentials: true
 }));
 app.use(express.json());

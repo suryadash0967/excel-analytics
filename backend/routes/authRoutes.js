@@ -3,6 +3,8 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const authController = require('../controllers/authController');
+const dotenv = require('dotenv');
+dotenv.config();
 
 // Email login/register
 router.post('/register', authController.register);
@@ -25,7 +27,7 @@ router.get('/google/callback',
       process.env.JWT_SECRET
     );
 
-    res.redirect(`http://localhost:5173/dashboard?token=${token}`);
+    res.redirect(`${process.env.CLIENT_URL}/dashboard?token=${token}`);
   }
 );
 

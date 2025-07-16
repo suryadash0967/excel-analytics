@@ -16,7 +16,7 @@ function Files() {
 
   const fetchUploads = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/uploads", {
+      const res = await axios.get("${import.meta.env.VITE_API_URL}/api/uploads", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -37,7 +37,7 @@ function Files() {
   const handleDelete = async (fileId) => {
     if (!window.confirm("Are you sure you want to delete this file?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/uploads/${fileId}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/uploads/${fileId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

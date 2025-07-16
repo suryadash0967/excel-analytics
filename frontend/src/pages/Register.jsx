@@ -23,7 +23,7 @@ function Register() {
   const handleRegister = async () => {
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/auth/register', {
+      await axios.post('${import.meta.env.VITE_API_URL}/api/auth/register', {
         name, email, password, role
       });
       window.location.href = '/login';
@@ -119,7 +119,7 @@ function Register() {
           <div className="oauth-buttons">
             <button
               type="button"
-              onClick={() => window.location.href = `http://localhost:5000/api/auth/google?role=${role}`}
+              onClick={() => window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google?role=${role}`}
               disabled={loading}
               style={{
                 display: 'flex',

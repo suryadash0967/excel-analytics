@@ -16,7 +16,7 @@ function ExcelStats() {
     useEffect(() => {
         const fetchFileData = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/uploads/stats/${id}`, {
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/uploads/stats/${id}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
@@ -35,7 +35,7 @@ function ExcelStats() {
 
     const savePreferences = async () => {
         try {
-            await axios.patch(`http://localhost:5000/api/uploads/${id}/preferences`, {
+            await axios.patch(`${import.meta.env.VITE_API_URL}/api/uploads/${id}/preferences`, {
                 xAxis,
                 yAxis,
                 chartType,
@@ -53,7 +53,7 @@ function ExcelStats() {
     const handleDelete = async () => {
         if (!window.confirm("Are you sure you want to delete this file?")) return;
         try {
-            await axios.delete(`http://localhost:5000/api/uploads/${id}`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/uploads/${id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },

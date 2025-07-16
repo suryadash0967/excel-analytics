@@ -50,7 +50,7 @@ function Dashboard() {
 
   const fetchDashboardData = async (token) => {
     try {
-      const res = await fetch("http://localhost:5000/api/uploads", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/uploads", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,7 +63,7 @@ function Dashboard() {
       const recentFilesWithData = await Promise.all(
         recent.map(async (file) => {
           try {
-            const statsRes = await fetch(`http://localhost:5000/api/uploads/stats/${file._id}`, {
+            const statsRes = await fetch(`${import.meta.env.VITE_API_URL}/api/uploads/stats/${file._id}`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
