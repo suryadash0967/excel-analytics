@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MdOutlineNightsStay, MdSunny } from "react-icons/md";
 
-function ThemeToggle() {
+function ThemeToggle({isOpen}) {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
@@ -15,7 +15,11 @@ function ThemeToggle() {
   };
 
   return (
-    <div className="theme-toggle-btn" onClick={toggleTheme}>
+    <div
+      className="theme-toggle-btn"
+      style={isOpen ? {display: "flex"} : {display: "none"}}
+      onClick={toggleTheme}
+    >
       {theme === "light" ? <MdSunny /> : <MdOutlineNightsStay />}
     </div>
   );

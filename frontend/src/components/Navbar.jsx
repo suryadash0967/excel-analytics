@@ -35,7 +35,7 @@ function Navbar() {
         <button className="navbar-logout-btn" onClick={() => { handleLogout(); setIsOpen(false); }}>
           Logout
         </button>
-        <ThemeToggle />
+        <ThemeToggle isOpen={isOpen} />
       </div>
     </nav>
   );
