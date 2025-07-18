@@ -19,7 +19,7 @@ function TypingMarkdown({ content, speed = 15 }) {
     }, [content, speed]);
 
     return (
-        <div className="markdown-body">
+        <div className="markdown-body" style={{fontFamily: "Poppins"}}>
             <ReactMarkdown>{typed}</ReactMarkdown>
         </div>
     );

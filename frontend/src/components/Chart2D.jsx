@@ -61,7 +61,7 @@ function Chart2D({ data, xAxis, yAxis, type }) {
     };
 
     return (
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", fontFamily:"Poppins" }}>
             <div ref={chartRef} className="chart-box-wrapper">
                 {type === "bar" && <Bar data={chartData} options={options} />}
                 {type === "line" && <Line data={chartData} options={options} />}
