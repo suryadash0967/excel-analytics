@@ -862,6 +862,30 @@ body.dark .navbar-link {
   box-shadow: 0 0 0 3px #6366f155;
 }
 
+.get-insights-button {
+  background: linear-gradient(to right, #6366f1, #8b5cf6); /* Indigo to purple */
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.get-insights-button:hover {
+  background: linear-gradient(to right, #4f46e5, #7c3aed); /* Darker on hover */
+  transform: scale(1.03);
+}
+
+.get-insights-button.disabled,
+.get-insights-button:disabled {
+  background: #a3a3a3;
+  cursor: not-allowed;
+  transform: none;
+}
+
 
 body.dark .dashboard-header h1 {
   color: #f3f4f6;
@@ -1198,6 +1222,28 @@ body.dark .custom-popup {
 body.dark .close-btn {
   color: #fff;
   border-color: #fff;
+}
+
+body.dark .markdown-body {
+  background-color: transparent; /* or match your dark card bg */
+  color: #e0e0e0; /* light text for readability */
+}
+
+body.dark .markdown-body h1,
+body.dark .markdown-body h2,
+body.dark .markdown-body h3,
+body.dark .markdown-body strong {
+  color: #ffffff;
+}
+
+body.dark .markdown-body code {
+  background-color: #333;
+  color: #ffcb6b;
+}
+
+body.dark .markdown-body pre {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
 }
 
 

@@ -1,15 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import ReactMarkdown from "react-markdown";
+import "github-markdown-css/github-markdown-light.css"; // or `github-markdown-dark.css`
 import axios from "axios";
 import Chart2D from "./Chart2D";
 import Chart3D from "./Chart3D";
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 
+const StatusMessage = ({ message, type }) => {
+    if (!message) return null;
+    return <div className={`status-message ${type}`}>{message}</div>;
+};
+
 function ExcelStats() {
     const [fileData, setFileData] = useState(null);
     const [xAxis, setXAxis] = useState("");
     const [yAxis, setYAxis] = useState("");
     const [chartType, setChartType] = useState("bar");
+
+    const [insights, setInsights] = useState("");
+    const [isInsightsLoading, setIsInsightsLoading] = useState(false);
+    const [isInsightsLoaded, setIsInsightsLoaded] = useState(false);
+    const [insightsError, setInsightsError] = useState("");
+
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -64,6 +77,25 @@ function ExcelStats() {
             alert("Failed to delete file.");
         }
     };
+
+    const fetchInsights = useCallback(async () => {
+        setIsInsightsLoading(true);
+        setInsights("");
+        setInsightsError("");
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/uploads/${id}/insights`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            });
+            setInsights(res.data.insights);
+            setIsInsightsLoaded(true);
+        } catch (err) {
+            const errorMessage = err.response?.data?.error || "Failed to fetch AI insights.";
+            console.error(errorMessage, err);
+            setInsightsError(errorMessage);
+        } finally {
+            setIsInsightsLoading(false);
+        }
+    }, [id]);
 
     if (!fileData) return <Loader />;
 
@@ -143,6 +175,26 @@ function ExcelStats() {
                             <span className="excelstats-chart-placeholder">Select X and Y axes to preview chart.</span>
                         )}
                     </div>
+                </div>
+                <div className="ai-insights-section">
+                    <h2 style={{textAlign: "center", margin: "2rem 0", fontSize: "26px"}}>🤖 AI Insights</h2>
+                    {!isInsightsLoaded &&
+                        <button
+                            onClick={fetchInsights}
+                            disabled={isInsightsLoading}
+                            className={`get-insights-button ${isInsightsLoading ? 'disabled' : ''}`}
+                        >
+                            {isInsightsLoading ? "Analyzing..." : "🤖 Get AI Insights"}
+                        </button>
+                    }
+
+                    {isInsightsLoading && <Loader />}
+                    {insightsError && <StatusMessage message={insightsError} type="error" />}
+                    {insights && (
+                        <div className="markdown-body">
+                            <ReactMarkdown>{insights}</ReactMarkdown>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

@@ -34,6 +34,78 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage, fileFilter });
 
+router.get('/:id/insights', authenticateUser, async (req, res) => {
+  try {
+    const fetch = (await import('node-fetch')).default;
+    const file = await Upload.findById(req.params.id);
+
+    if (!file || file.userId.toString() !== req.user.id) {
+      return res.status(404).json({ error: 'File not found or unauthorized' });
+    }
+
+    if (!fs.existsSync(file.filePath)) {
+      return res.status(404).json({ error: 'File missing from disk' });
+    }
+
+    const workbook = XLSX.readFile(file.filePath);
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const csvData = XLSX.utils.sheet_to_csv(worksheet);
+    const prompt = `
+      You are a professional data analyst. Analyze the following dataset and provide insights **strictly in raw markdown**.
+
+      Requirements:
+      - Use only GitHub-style markdown syntax (e.g., ## for headers, ** for bold).
+      - Do NOT include any HTML tags or formatting.
+      - Avoid phrases like "Here's your analysis".
+      - Don't explain what you're doing, just give the analysis directly.
+
+      Sections to include:
+      1. High-level Summary
+      2. Trends, Patterns, or Correlations
+      3. Anomalies or Outliers
+      4. Business Questions or Recommendations
+
+      CSV data:
+      ---
+      ${csvData}
+      ---
+    `;
+
+
+    const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+    const apikey = process.env.GEMINI_API_KEY;
+    if (!apikey) {
+      return res.status(500).json({ error: 'Gemini API key not configured' });
+    }
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apikey}`;
+    const geminiResponse = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!geminiResponse.ok) {
+      const errorBody = await geminiResponse.json();
+      console.error("Gemini API Error:", errorBody);
+      return res.status(500).json({ error: 'Failed to get insights from AI service.' });
+    }
+
+    const result = await geminiResponse.json();;
+    const insightsText = result.candidates?.[0]?.content?.parts?.[0]?.text || 'No insights generated';
+
+    if (!insightsText) {
+      return res.status(500).json({ error: 'AI returned an empty response.' });
+    }
+
+    res.json({ insights: insightsText });
+
+  } catch (err) {
+    console.error("Error in /insights route:", err);
+    res.status(500).json({ error: 'Failed to generate AI insights.' });
+  }
+})
+
 router.get('/stats/:id', authenticateUser, async (req, res) => {
   try {
     const file = await Upload.findById(req.params.id);
