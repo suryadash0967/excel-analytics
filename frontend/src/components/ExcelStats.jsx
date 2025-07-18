@@ -6,6 +6,7 @@ import Chart2D from "./Chart2D";
 import Chart3D from "./Chart3D";
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
+import TypingMarkdown from "./TypingMarkdown";
 
 const StatusMessage = ({ message, type }) => {
     if (!message) return null;
@@ -177,7 +178,7 @@ function ExcelStats() {
                     </div>
                 </div>
                 <div className="ai-insights-section">
-                    <h2 style={{textAlign: "center", margin: "2rem 0", fontSize: "26px"}}>🤖 AI Insights</h2>
+                    <h2 style={{ textAlign: "center", margin: "2rem 0", fontSize: "26px" }}>🤖 AI Insights</h2>
                     {!isInsightsLoaded &&
                         <button
                             onClick={fetchInsights}
@@ -192,9 +193,10 @@ function ExcelStats() {
                     {insightsError && <StatusMessage message={insightsError} type="error" />}
                     {insights && (
                         <div className="markdown-body">
-                            <ReactMarkdown>{insights}</ReactMarkdown>
+                            <TypingMarkdown content={insights} speed={10} />
                         </div>
                     )}
+
                 </div>
             </div>
         </div>
