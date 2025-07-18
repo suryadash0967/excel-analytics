@@ -56,7 +56,7 @@ function Upload({ onClose }) {
     <div className="upload-popup-overlay">
       <div className="upload-popup">
         <div className="upload-popup-header">
-          <h2>📤 Upload Excel File</h2>
+          <h2>📤 Upload Excel File (Only .xls or .xlsx files allowed)</h2>
           <div className="close-btn" onClick={onClose}><RxCross2 /></div>
         </div>
 

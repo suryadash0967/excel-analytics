@@ -7,7 +7,7 @@ function TypingMarkdown({ content, speed = 15 }) {
     useEffect(() => {
         if (!content) return;
 
-        setTyped(""); // Reset on new content
+        setTyped("");
         let index = 0;
         const interval = setInterval(() => {
             setTyped((prev) => prev + content[index]);
@@ -15,7 +15,7 @@ function TypingMarkdown({ content, speed = 15 }) {
             if (index >= content.length) clearInterval(interval);
         }, speed);
 
-        return () => clearInterval(interval); // Cleanup
+        return () => clearInterval(interval);
     }, [content, speed]);
 
     return (
