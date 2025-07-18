@@ -29,13 +29,6 @@ body {
   background-color: #3a8ad3;
 }
 
-/* Firefox scrollbar styling */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #589cee #f1f1f1;
-}
-
-
 .custom-navbar {
   width: 100%;
   display: flex;
@@ -48,7 +41,6 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   background-color: rgba(255, 255, 255, 0.7);
-  /* default light mode */
   box-shadow: 0 2px 12px 0 #589cee22;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -70,7 +62,6 @@ body.dark .custom-navbar {
 }
 
 .navbar-title {
-  /* color: #222; */
   font-size: 24px;
   font-weight: 600;
   display: flex;
@@ -162,7 +153,6 @@ body.dark .navbar-link {
 }
 
 
-/* Mobile Menu */
 @media (max-width: 700px) {
   .hamburger-btn {
     display: block;
@@ -186,10 +176,6 @@ body.dark .navbar-link {
     overflow: hidden;
     opacity: 0;
     transition: all 0.3s ease-in-out;
-  }
-
-  .theme-toggle-btn.mobile-open {
-    
   }
   
   .navbar-links.mobile-open {
@@ -313,7 +299,6 @@ body.dark .navbar-link {
   margin-top: 15px;
 }
 
-/* Role selector styles */
 .role-selector {
   display: flex;
   gap: 20px;
@@ -342,7 +327,6 @@ body.dark .navbar-link {
 
 .role-icon {
   font-size: 2.5em;
-  /* margin-bottom: 8px; */
 }
 
 .role-label {
@@ -545,7 +529,6 @@ body.dark .navbar-link {
   margin: 1rem 0;
 }
 
-
 .upload-popup button {
   padding: 8px 16px;
   background-color: #589cee;
@@ -558,7 +541,6 @@ body.dark .navbar-link {
 .upload-popup button:disabled {
   background-color: #a6c9f1;
 }
-
 
 .close-btn {
   cursor: pointer;
@@ -630,7 +612,6 @@ body.dark .navbar-link {
 .custom-file-input::file-selector-button:hover {
   background-color: #468ed8;
 }
-
 
 @keyframes popupFadeIn {
   from {
@@ -882,7 +863,6 @@ body.dark .navbar-link {
   transform: none;
 }
 
-
 body.dark .dashboard-header h1 {
   color: #f3f4f6;
 }
@@ -941,7 +921,6 @@ body.dark .view-all-files-btn:hover {
   border-color: #4338ca;
 }
 
-/* Light mode defaults (optional if already styled) */
 body.light .excelstats-bg {
   background-color: #f9fafb;
   color: #1f2937;
@@ -1061,7 +1040,6 @@ body.dark .files-loading-msg {
 }
 
 
-/* Generic body dark style */
 body.dark {
   background-color: #181a20;
   color: #f3f4f6;
@@ -1221,8 +1199,8 @@ body.dark .close-btn {
 }
 
 body.dark .markdown-body {
-  background-color: transparent; /* or match your dark card bg */
-  color: #e0e0e0; /* light text for readability */
+  background-color: transparent;
+  color: #e0e0e0;
 }
 
 body.dark .markdown-body h1,
@@ -1241,9 +1219,6 @@ body.dark .markdown-body pre {
   background-color: #1e1e1e;
   color: #d4d4d4;
 }
-
-
-
 
 /* Animations */
 @keyframes fadeIn {
@@ -1456,7 +1431,6 @@ body.dark .markdown-body pre {
   font-family: Poppins;
 }
 
-
 .chart-box-wrapper {
   margin: auto;
   width: 700px;
@@ -1513,8 +1487,6 @@ body.dark .markdown-body pre {
   background-color: #589cee;
 }
 
-
-
 body.light {
   background: #f9fafb;
   color: #222;
@@ -1540,10 +1512,7 @@ body.dark {
 }
 
 .theme-toggle-btn {
-  /* background: #589cee; */
-  /* color: #fff; */
   border-radius: 50%;
-  /* padding: 0.5rem 1.2rem; */
   height: 45px;
   width: 45px;
   padding: 0px;
@@ -1569,16 +1538,15 @@ body.dark {
     width: 40px;
   }
 }
+
 .loader-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80vh;
   color: #000;
-  /* default: black for light mode */
 }
 
 body.dark .loader-container {
   color: #fff;
-  /* white for dark mode */
 }
