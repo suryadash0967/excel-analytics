@@ -8,7 +8,7 @@
 
 body {
   background: #f9fafb;
-  font-family: 'Poppins', 'Inter', Arial, sans-serif;
+  font-family: 'Poppins';
 }
 
 ::-webkit-scrollbar {
@@ -45,7 +45,6 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  font-family: 'Poppins', 'Inter', Arial, sans-serif;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   background-color: rgba(255, 255, 255, 0.7);
@@ -221,7 +220,6 @@ body.dark .navbar-link {
   display: flex;
   width: 70%;
   height: 41rem;
-  font-family: 'Poppins', sans-serif;
 
 }
 
@@ -362,7 +360,6 @@ body.dark .navbar-link {
 .files-page {
   padding: 2.5rem;
   background-color: #f4f8ff;
-  font-family: 'Segoe UI', sans-serif;
   min-height: 100vh;
 }
 
@@ -641,11 +638,6 @@ body.dark .navbar-link {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-
-.dashboard-container {
-  font-family: 'Poppins', 'Inter', Arial, sans-serif;
 }
 
 .dashboard-container {
@@ -1322,7 +1314,6 @@ body.dark .markdown-body pre {
 
 .excelstats-bg {
   background: #f9fafb;
-  font-family: 'Poppins', 'Inter', Arial, sans-serif;
 }
 
 .excelstats-bg {
